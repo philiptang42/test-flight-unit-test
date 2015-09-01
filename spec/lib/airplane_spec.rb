@@ -1,7 +1,7 @@
 require_relative "../../lib/airplane"
 
 describe Airplane do
-  let(:my_plane) { Airplane.new("cesna", 10, 150) }
+  let(:my_plane) { Airplane.new("cesna", 10, 150, 500) }
   describe "#initialization" do
     context "birth of a plane" do
       it "the type is cesna" do
@@ -30,6 +30,12 @@ end
         my_plane.takeoff
         expect(my_plane.land).to eq("airplane landed")
       end
+      it "not enough fuel" do
+        my_plane.start
+        my_plane.takeoff
+        my_plane.fuel = 10
+        expect(my_plane.land).to eq("15 fuel needed to land. we're gonna die!!!")
+      end
 
     end
   end
@@ -43,6 +49,10 @@ end
       my_plane.start
       expect(my_plane.takeoff).to eq("airplane launched")
     end
+    it "not enough fuel" do
+      my_plane.fuel = 30
+      expect(my_plane.takeoff).to eq("60 fuel needed to lanch. WE'RE STRANDED!")
+    end
   end
 
   describe "#start" do
@@ -53,6 +63,10 @@ end
       it "already" do
         my_plane.start
         expect(my_plane.start).to eq("airplane already started")
+      end
+      it 'not enough fuel' do
+        my_plane.fuel = 0
+        expect(my_plane.start).to eq("20 fuel needed to start. Engines down...")
       end
     end
   end
